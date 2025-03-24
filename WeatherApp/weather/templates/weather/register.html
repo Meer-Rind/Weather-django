@@ -1,0 +1,118 @@
+{% extends 'weather/base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<style>
+    /* Center the form nicely */
+    .form-container {
+        margin-top: 50px;
+        padding: 20px;
+    }
+
+    /* Card styling */
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Card title */
+    .card-title {
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    /* Form fields */
+    .form-label {
+        font-weight: 500;
+    }
+
+    /* Form inputs */
+    input, select, textarea {
+        border-radius: 8px !important;
+        padding: 10px !important;
+        border: 1px solid #ccc !important;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #007bff !important;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5) !important;
+    }
+
+    /* Button styling */
+    .btn-primary {
+        border-radius: 8px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        transform: scale(1.05);
+    }
+
+    /* Already have an account? */
+    .text-center p {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .col-md-6 {
+            width: 90%;
+        }
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 form-container">
+        <div class="card">
+            <div class="card-body p-5">
+                <h2 class="card-title text-center mb-4">Create Your Account</h2>
+                <form method="POST" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="invalid-feedback">
+                            {{ field.errors|join:", " }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add Bootstrap validation classes
+    (function() {
+        'use strict'
+        const forms = document.querySelectorAll('.needs-validation')
+
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+{% endblock %}

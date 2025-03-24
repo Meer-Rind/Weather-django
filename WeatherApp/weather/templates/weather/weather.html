@@ -1,0 +1,52 @@
+{% extends 'weather/base.html' %}
+
+{% block title %}Weather Forecast{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4">Weather Forecast</h2>
+                <form method="POST" class="row g-3">
+                    {% csrf_token %}
+                    <div class="col-md-9">
+                        {{ form.city }}
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-search me-2"></i>Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if weather_data %}
+        <div class="weather-info text-center p-4 mb-4">
+            <h2 class="mb-3">{{ weather_data.city }}</h2>
+            <div class="weather-icon mb-3">
+                <img src="https:{{ weather_data.icon }}" alt="{{ weather_data.description }}" class="img-fluid">
+            </div>
+            <h3 class="display-4 mb-3">{{ weather_data.temperature }}°C</h3>
+            <h4 class="mb-4">{{ weather_data.description }}</h4>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="p-3 bg-light bg-opacity-25 rounded mb-3">
+                        <i class="fas fa-tint me-2"></i>
+                        <span>Humidity: {{ weather_data.humidity }}%</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light bg-opacity-25 rounded mb-3">
+                        <i class="fas fa-wind me-2"></i>
+                        <span>Wind: {{ weather_data.wind_speed }} km/h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
